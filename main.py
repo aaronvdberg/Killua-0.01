@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import requests
 import time
 import os
@@ -16,10 +15,27 @@ init(autoreset=True)
 
 # Function to start Tor and get the SOCKS proxy details
 def start_tor():
-    # Start Tor
+    # Linux path to the Tor executable
+    tor_path = "/usr/bin/tor"
+    
+    if not os.path.isfile(tor_path):
+        print(Fore.RED + f"Tor executable not found at {tor_path}")
+        return None, None
+
     try:
-        subprocess.Popen(['tor'])
-        time.sleep(5)  # Wait for Tor to start
+        print(Fore.YELLOW + "Starting Tor...")
+        process = subprocess.Popen([tor_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            stdout, stderr = process.communicate(timeout=20)  # Timeout after 20 seconds
+        except subprocess.TimeoutExpired:
+            print(Fore.RED + "Tor startup timed out.")
+            process.kill()
+            return None, None
+
+        if process.returncode != 0:
+            print(Fore.RED + f"Tor failed to start: {stderr.decode()}")
+            print(Fore.YELLOW + f"Tor output: {stdout.decode()}")
+            return None, None
         print(Fore.GREEN + "Tor started successfully.")
         return "127.0.0.1", 9050  # Local SOCKS proxy
     except Exception as e:
@@ -43,7 +59,7 @@ def make_request(url, proxies):
         return response
     except requests.exceptions.RequestException as e:
         print(Fore.RED + f"Request failed: {e}")
-        return None
+        return 
 
 def main():
     # ASCII Art

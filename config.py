@@ -1,7 +1,7 @@
 import multiprocessing
 
 ENGINES = {
-    "ahmia": "http://juhanurmihxlp77nkq76byazcldy2hlmovfu2epvl5ankdibsot4csyd.onion",
+    "ahmia": "juhanurmihxlp77nkq76byazcldy2hlmovfu2epvl5ankdibsot4csyd.onion",
     "darksearchio": "http://darksearch.io",
     "onionland": "http://3bbad7fauom4d6sgppalyqddsqbf5u5p56b5k5uk2zxsy3d6ey2jobad.onion",
     "notevil": "http://hss3uro2hsxfogfq.onion",
