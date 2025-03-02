@@ -14,10 +14,11 @@ from stem.control import Controller
 init(autoreset=True)
 
 # Function to start Tor and get the SOCKS proxy details
-def start_tor():
-    # Linux path to the Tor executable
+def start_tor(use_tor):
+    if not use_tor:
+        return None, None  # Skip starting Tor
+
     tor_path = "/usr/bin/tor"
-    
     if not os.path.isfile(tor_path):
         print(Fore.RED + f"Tor executable not found at {tor_path}")
         return None, None
@@ -53,13 +54,16 @@ def switch_tor_identity():
         print(Fore.RED + f"Failed to switch Tor identity: {e}")
 
 # Function to make an HTTP request through the Tor network
-def make_request(url, proxies):
+def make_request(url, proxies=None, use_tor=True):
     try:
-        response = requests.get(url, proxies=proxies, headers=random_headers())
+        if use_tor:
+            response = requests.get(url, proxies=proxies, headers=random_headers())
+        else:
+            response = requests.get(url, headers=random_headers())
         return response
     except requests.exceptions.RequestException as e:
         print(Fore.RED + f"Request failed: {e}")
-        return 
+        return None
 
 def main():
     # ASCII Art
