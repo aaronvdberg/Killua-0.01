@@ -1,5 +1,8 @@
 # How does Tor use Application Proxy (SOCKS)?
 
+
+![Alt text](image.png)
+
 ## Overview
 
 The term **"Onion Proxy"** refers to the entire Tor client process, which facilitates anonymous communication through the Tor network. The **SOCKS interface** is a method for a client application to connect to the Onion Proxy. The SOCKS server is provided by the Tor process itself, which attaches the connection to an existing or newly created Tor circuit upon receiving a request.
